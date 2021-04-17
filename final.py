@@ -18,10 +18,15 @@ Folder_Name = ""
 #file location
 def openLocation():
 
-    saveEntry.configure(state=DISABLED)
+
     global Folder_Name
     Folder_Name = filedialog.askdirectory()
-    if(len(Folder_Name) > 1):
+    if(len(Folder_Name) < 1):
+        locationError = Label(root, bg='azure', font=("jost", 15), fg='green')
+        locationError.config(text="Please Choose Folder!!", fg="red")
+
+    elif(len(Folder_Name) > 1):
+        saveEntry.configure(state=DISABLED)
         locationError=Label(root,bg='azure',font=("jost",15),fg='green')
         locationError.grid()
         locationError.config(text=Folder_Name,fg="green")
@@ -46,48 +51,52 @@ def openLocation():
         downloadbtn.grid()
 
 
-    else:
-        locationError = Label(root, bg='azure', font=("jost", 15), fg='green')
-        locationError.config(text="Please Choose Folder!!",fg="red")
+
 
 
 
 
 def search():
-    b.configure(state=DISABLED)
-    choices3=[]
+    lb8 = Label(root, text="Please enter a song name!", fg='red', bg='azure', font=('Helvetica', 12))
+    if(len(ytdEntry.get())<1):
 
-    url = ytdEntry.get()
-    url = url.replace(' ', "+")
-    search_keyword = url
-    html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
-    video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+        lb8.grid()
+    elif(len(ytdEntry.get())>1):
 
-    for i in range(8):
-        params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % video_ids[i]}
-        url = "https://www.youtube.com/oembed"
-        query_string = urllib.parse.urlencode(params)
-        url = url + "?" + query_string
+       b.configure(state=DISABLED)
+       choices3=[]
 
-        with urllib.request.urlopen(url) as response:
-           response_text = response.read()
-           data = json.loads(response_text.decode())
-           choices3.append(data['title'])
-    songLabel1 = Label(root, bg='azure',text="Choose your song!!",fg='brown',font=6)
-    songLabel1.grid()
+       url = ytdEntry.get()+"songs"
+       url = url.replace(' ', "+")
+       search_keyword = url
+       html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
+       video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
 
-    global  ytdchoices2
-    ytdchoices2 = ttk.Combobox(root, values=choices3,width=90,font=('Helvetica',12))
-    ytdchoices2.grid()
+       for i in range(8):
+           params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % video_ids[i]}
+           url = "https://www.youtube.com/oembed"
+           query_string = urllib.parse.urlencode(params)
+           url = url + "?" + query_string
 
-    songLabel2 = Label(root, bg='azure')
-    songLabel2.grid()
+           with urllib.request.urlopen(url) as response:
+              response_text = response.read()
+              data = json.loads(response_text.decode())
+              choices3.append(data['title'])
+       songLabel1 = Label(root, bg='azure',text="Choose your song!!",fg='brown',font=6)
+       songLabel1.grid()
 
-    name = "https://www.youtube.com/watch?v=" + video_ids[0]
+       global  ytdchoices2
+       ytdchoices2 = ttk.Combobox(root, values=choices3,width=90,font=('Helvetica',12))
+       ytdchoices2.grid()
+
+       songLabel2 = Label(root, bg='azure')
+       songLabel2.grid()
+
+       name = "https://www.youtube.com/watch?v=" + video_ids[0]
     # btn to save file
-    global saveEntry
-    saveEntry = Button(root, text="Choose Path",width=12,font=4, command= openLocation)
-    saveEntry.grid()
+       global saveEntry
+       saveEntry = Button(root, text="Choose Path",width=12,font=4, command= openLocation)
+       saveEntry.grid()
 
 
 
@@ -173,7 +182,7 @@ lb.grid()
 lb1=Label(root,text="Download any song you love for free here.....",bg='azure',font=("helvetica",20),fg='orange')
 lb1.grid()
 
-ytdLabel = Label(root,text="Enter song name",bg='azure',font=("jost",15))
+ytdLabel = Label(root,text="Enter song/album/artist name",bg='azure',font=("jost",15))
 ytdLabel.grid()
 
 
