@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
-from pytube import YouTube #pip install pytube3
+from pytube import YouTube  # pip install pytube
 import urllib.request
 import re
 import json
@@ -17,13 +17,15 @@ Folder_Name = ""
 
 #file location
 def openLocation():
+
+    saveEntry.configure(state=DISABLED)
     global Folder_Name
     Folder_Name = filedialog.askdirectory()
     if(len(Folder_Name) > 1):
         locationError=Label(root,bg='azure',font=("jost",15),fg='green')
         locationError.grid()
         locationError.config(text=Folder_Name,fg="green")
-    # donwload btn
+
 
         songLabel3 = Label(root, bg='azure')
         songLabel3.grid()
@@ -31,6 +33,7 @@ def openLocation():
 
 
         # Download Quality
+
         ytdQuality = Label(root, text="Select Quality", bg='azure', font=("jost", 15))
         ytdQuality.grid()
         choices = ["720p", "144p", "Only Audio"]
@@ -38,7 +41,7 @@ def openLocation():
         ytdchoices = ttk.Combobox(root, values=choices,font=('Helvetica,12'))
         ytdchoices.grid()
 
-
+        global downloadbtn
         downloadbtn = Button(root, text="Download", width=12,  command= DownloadVideo,font=4)
         downloadbtn.grid()
 
@@ -51,14 +54,15 @@ def openLocation():
 
 
 def search():
+    b.configure(state=DISABLED)
     choices3=[]
-   # choice = ytdchoices.get()
+
     url = ytdEntry.get()
     url = url.replace(' ', "+")
     search_keyword = url
     html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
     video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
-    #name = "https://www.youtube.com/watch?v=" + video_ids[0]
+
     for i in range(8):
         params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % video_ids[i]}
         url = "https://www.youtube.com/oembed"
@@ -80,7 +84,8 @@ def search():
     songLabel2.grid()
 
     name = "https://www.youtube.com/watch?v=" + video_ids[0]
-    # btn of save file
+    # btn to save file
+    global saveEntry
     saveEntry = Button(root, text="Choose Path",width=12,font=4, command= openLocation)
     saveEntry.grid()
 
@@ -89,7 +94,6 @@ def search():
 def DownloadVideo():
     choices = ["720p", "144p", "Only Audio"]
     choice = ytdchoices.get()
-    #url = ytdEntry.get()
     url5 = ytdchoices2.get()
     if(len(url5)>1):
 
@@ -98,7 +102,7 @@ def DownloadVideo():
 
 
 
-        #ytdError.config(text="")
+
         url5=url5.replace(' ', "+")
         search_keyword =url5
         html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
@@ -149,7 +153,7 @@ def DownloadVideo():
 
     ytdError = Label(root, fg="red", bg='azure',text="!!DOWNLOAD COMPLETED!!", font=("jost", 20))
     ytdError.grid()
-
+    downloadbtn.configure(state=DISABLED)
 
 
 
@@ -159,9 +163,9 @@ root.title("MELODY")
 root.configure(bg='azure')
 #root.iconbitmap('melody.ico')
 root.geometry("900x650") #set window
-root.columnconfigure(0,weight=1)#set all content in center.
+root.columnconfigure(0,weight=1) # set all content in center.
 
-#Ytd Link Label
+
 
 lb=Label(root,text="!! MELODY !!",bg='azure',font=("helvetica",30),fg='magenta')
 lb.grid()
@@ -179,6 +183,7 @@ ytdEntryVar = StringVar()
 ytdEntry = Entry(root,width=40,textvariable=ytdEntryVar,font=('Helvetica,10'))
 ytdEntry.grid()
 
+global b
 b=Button(root,text="Search",command=search,width=8,font=6)
 b.grid()
 
