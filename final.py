@@ -7,7 +7,7 @@ import re
 import json
 import urllib
 
-from PIL import ImageTk,Image
+#from PIL import ImageTk,Image
 
 
 Folder_Name = ""
@@ -157,7 +157,7 @@ def DownloadVideo():
 root = Tk()
 root.title("MELODY")
 root.configure(bg='azure')
-root.iconbitmap('melody.ico')
+#root.iconbitmap('melody.ico')
 root.geometry("900x650") #set window
 root.columnconfigure(0,weight=1)#set all content in center.
 
