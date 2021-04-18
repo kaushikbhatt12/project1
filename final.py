@@ -8,13 +8,7 @@ import json
 import urllib
 
 #from PIL import ImageTk,Image
-
-
 Folder_Name = ""
-
-
-
-
 #file location
 def openLocation():
 
@@ -196,11 +190,7 @@ global b
 b=Button(root,text="Search",command=search,width=8,font=6)
 b.grid()
 
-
-
 songLabel=Label(root,bg='azure')
 songLabel.grid()
-
-
 
 root.mainloop()
