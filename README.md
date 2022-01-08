@@ -1,4 +1,4 @@
-# song downloader
+# MELODY
 
 This code is made using tkinter which is standard GUI(graphic user interface) package of python. One needs to install python youtube module pytube for using it. Pytube can be installed 
 using the command "pip install pytube".
